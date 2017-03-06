@@ -1,0 +1,80 @@
+---
+title: "Homework4"
+author: "Xinglin Tao"
+date: "2/14/2017"
+output: pdf_document
+---
+
+#graph 1
+#196 THE WORDCLOUD2 LIBRARY
+#link: http://www.r-graph-gallery.com/196-the-wordcloud2-library/
+```{r}
+#Original code with graph
+library(wordcloud2) 
+letterCloud( demoFreq, word = "PEACE", color="white", backgroundColor="pink")
+```
+```{r}
+# library
+library(wordcloud2) 
+letterCloud( demoFreq, word = "LILLIAN", color= "royalblue", backgroundColor= "lightskyblue")
+```
+
+
+#graph 2
+#78 LEVELPLOT FROM A SQUARE MATRIX
+#link:http://www.r-graph-gallery.com/78-levelplot-from-a-square-matrix
+
+```{r}
+# Lattice package
+require(lattice)
+#The lattice package provides a dataset named volcano. It's a square matrix looking like that :
+head(volcano)
+# The use of levelplot is really easy then :
+levelplot(volcano)
+```
+
+#graph 3
+##57 RAYS | ABSTRACT PAINTING
+#link: http://www.r-graph-gallery.com/57-rays-abstract-painting/
+#original code with graph
+```{r}
+# generate pairs of x-y values
+theta = seq(0, pi, length = 300)
+x = cos(theta)
+y = sin(theta)
+ 
+# set graphical parameters
+op = par(bg = "black", mar = rep(0.5, 4))
+ 
+# plot
+plot(x, y, type = 'n')
+segments(rep(0, 299), rep(0, 299), x[1:299] * runif(299, 0.7), 
+         y[1:299] * runif(299, 0.7), 
+         col = hsv(runif(299, 0.45, 0.55), 1, 1, runif(299, 0.5)), 
+         lwd = 5*runif(299))
+ 
+# signature
+legend("topleft", legend = "© Gaston Sanchez", bty = "n", text.col = "gray70")
+ 
+```
+
+```{r}
+# generate pairs of x-y values
+theta = seq(0, pi, length = 500)
+x = cos(theta)
+y = sin(theta)
+ 
+# set graphical parameters
+op = par(bg = "midnightblue", mar = rep(0.5, 4))
+ 
+# plot
+plot(x, y, type = 'n')
+segments(rep(0, 499), rep(0, 499), x[1:499] * runif(499, 0.5), 
+         y[1:499] * runif(499, 0.9), 
+         col = hsv(runif(499, 0.4, 0.6), 1, 1, runif(499, 0.7)), 
+         lwd = 7*runif(499))
+ 
+# signature
+legend("topleft", legend = "Xinglin Tao", bty = "n", text.col = "mintcream")
+
+```

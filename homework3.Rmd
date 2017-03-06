@@ -1,0 +1,65 @@
+---
+title: "homework3"
+author: "Xinglin Tao"
+date: "1/30/2017"
+output: pdf_document
+---
+#1. Merging data
+aapl <-read.csv("~/Desktop/STAT 302/aapl.csv")
+summary(aapl)
+amzn <-read.csv("~/Desktop/STAT 302/amzn.csv")
+summary(amzn)
+googl <- read.csv("~/Desktop/STAT 302/googl.csv")
+summary(googl)
+msft <- read.csv("~/Desktop/STAT 302/msft.csv")
+summary(msft)
+
+library(date)
+date <- dmy(aapl$Date)
+
+apple  <- data.frame(Date = date, AAPL= aapl$Close)
+amazon <- data.frame(Date = date, AMZN= amzn$Close)
+google <- data.frame(Date = date, GOOG= googl$Close)
+microsoft <- data.frame(Date = date, MSFT= msft$Close)
+
+m <-merge(google, amazon, by = "Date", all=TRUE)
+m <- merge (m, apple, by= "Date", all=TRUE)
+m <- merge (m, microsoft, by= "Date",all=TRUE)
+
+m
+
+#2.Plot 4 stocks
+x <- m$Date
+y1 <- m$GOOG / m$GOOG[1]*100
+y2 <- m$AAPL / m$AAPL[1]*100
+y3 <- m$AMZN / m$AMZN[1]*100
+y4 <- m$MSFT / m$MSFT[1]*100
+
+plot(x,y1, type = "l", col = "red", xlab = "year", ylab = "Closing Price scale", main= "Change of stock prices over 10 years", ylim=c(0,2200))
+lines(x, y2, type = "l", col = "blue")
+lines(x, y3, type = "l", col = "lightblue")
+lines(x, y4, type = "l", col = "yellow")
+
+legend ("topleft",  legend =c("GOOG", "AAPL", "AMZN", "MSFT"), col = c("red", "blue", "lightblue","yellow"),lty=1, cex=0.8, title = "Line types")
+
+#3. Boxplot for Google Stocks
+boxplot(m$GOOG~year(m$Date), data = m, main="GOOGLE Stocks", xlab= "year", ylab="stock prices")
+
+#4. Average stock price by year
+Average <- aggregate (m, list(Year = year(m$Date)),mean)
+Average$Date <- NULL
+
+#5. Daily return on a stock as in (Today's price/ Last available day's price)
+
+GOOG.prices <- m[, "GOOG", drop = FALSE]
+AAPL.prices <- m[, "AAPL", drop = FALSE]
+AMZN.prices <- m[, "AMZN", drop = FALSE]
+MSFT.prices <- m[, "MSFT", drop = FALSE]
+n <- nrow(m)
+GOOG.return <- (GOOG.prices[2:n, 1])/(GOOG.prices[1:n-1, 1]) 
+AAPL.return <- (AAPL.prices[2:n, 1])/(AAPL.prices[1:n-1, 1]) 
+AMZN.return <- (AMZN.prices[2:n, 1])/(AMZN.prices[1:n-1, 1]) 
+MSFT.return <- (MSFT.prices[2:n, 1])/(MSFT.prices[1:n-1, 1]) 
+return <- data.frame(google = GOOG.return, apple =AAPL.return,amazon =AMZN.return, microsoft=MSFT.return )
+library(corrgram)
+corrgram (return, order = TRUE, panel = panel.pts, text.panel=panel.txt, main= "Daily Return")

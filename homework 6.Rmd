@@ -1,0 +1,36 @@
+---
+title: "homework 6"
+author: "Xinglin Tao"
+date: "2/27/2017"
+output:
+  pdf_document: default
+  word_document: default
+---
+
+```{r}
+data <- read.table("~/Desktop/STAT 302/Altitude.txt", col.names = c("BP", "Pressure"), skip = 1)
+
+# linear regression
+plot(data$Pressure, data$BP, xlab = "Pressure", ylab= "BP")
+linear <- with(data, lm(data$BP ~ data$Pressure))  
+abline(linear, col = "red")
+
+# Coefficients
+summary(linear)$coefficients
+# 155.296483 is significant because the p-value is 5.845817e-26 < 0.001.
+
+
+# quadratic regression
+quadratic <- with(data, lm(data$BP ~ poly(data$Pressure,2)))
+
+# Coefficients
+summary(quadratic)$coefficients
+# Significant coefficients (202.952941, 22.974440)are significant becuase the 
+# p-values(1.445422e-39,1.013719e-17)< 0.001
+# -0.694268 is not significant because p-value (1.209689e-01 > 0.05)
+
+#Graph
+lines(data$Pressure, fitted(quadratic), col = "blue")
+legend('topleft', legend =c('linear', 'quadratic'), col =c ('red', 'blue'),
+       lty=1, cex=1, title = "Line types")
+```
